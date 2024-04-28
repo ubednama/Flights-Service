@@ -46,13 +46,27 @@ class CrudRepository {
         }
     }
 
+
+
+// update can be optimized more
     async update(id, data) {        //data => {col: value, ....}
         try {
-            const response = await this.model.update(data, {
+            console.log(id, data.modelNumber, data.capacity)
+            const updatedFields = {};
+            if (data.modelNumber && data.capacity) {
+                updatedFields.modelNumber = data.modelNumber;
+                updatedFields.capacity = data.capacity;
+            } else if (data.capacity) {
+                updatedFields.capacity = data.capacity;
+            } else if (data.modelNumber) {
+                updatedFields.modelNumber = data.modelNumber;
+            }
+            console.log(updatedFields)
+            const response = await this.model.update(updatedFields,{
                 where: {
                     id: id
-                }
-            })
+                }})
+            return response
         } catch (error) {
             Logger.error("Something went wrong in CRUD Repo: update")
         }
