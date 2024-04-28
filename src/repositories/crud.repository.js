@@ -19,17 +19,13 @@ class CrudRepository {
     }
 
     async destroy(data) {
-        try {
-            const response = await this.model.destroy({
-                where: {
-                    id:data
-                }
-            })
-            return response;
-        } catch (error) {
-            Logger.error("Something went wrong in CRUD Repo: delete")
-            throw error;
-        }
+        const response = await this.model.destroy({
+            where: {
+                id:data
+            }
+        })
+        if(!response) throw new AppError('No record deleted as Data doesnt exists', StatusCodes.NOT_FOUND)
+        return response;
     }
 
     async get(data) {
