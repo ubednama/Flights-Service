@@ -13,6 +13,6 @@ router.get('/:id', AirplaneController.getAirplane)
 
 router.delete('/:id', AirplaneController.deleteAirplane)
 
-router.patch('/:id', AirplaneController.updateAirplane)
+router.patch('/:id', AirplaneMiddlewares.validateUpdateRequest, AirplaneController.updateAirplane)
 
 module.exports = router;

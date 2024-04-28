@@ -11,8 +11,10 @@ class CrudRepository {
         // console.log(data)
         try {
             const response = await this.model.create(data);
+            // console.log(response)
             return response;
         } catch(error) {
+            // console.log(error)
             Logger.error("Something went wrong in CRUD Repo: create");
             throw error;
         }
@@ -24,7 +26,9 @@ class CrudRepository {
                 id:data
             }
         })
-        if(!response) throw new AppError('No record deleted as Data doesnt exists', StatusCodes.NOT_FOUND)
+        if(!response) { 
+            console.log("here ",response)
+            throw new AppError('No record deleted as Data doesnt exists', StatusCodes.NOT_FOUND) }
         return response;
     }
 
@@ -36,7 +40,6 @@ class CrudRepository {
         return response;
     }
 
-
     async getAll(data) {
         try {
             const response = await this.model.findAll()
@@ -46,30 +49,15 @@ class CrudRepository {
         }
     }
 
-
-
 // update can be optimized more
     async update(id, data) {        //data => {col: value, ....}
-        try {
-            console.log(id, data.modelNumber, data.capacity)
-            const updatedFields = {};
-            if (data.modelNumber && data.capacity) {
-                updatedFields.modelNumber = data.modelNumber;
-                updatedFields.capacity = data.capacity;
-            } else if (data.capacity) {
-                updatedFields.capacity = data.capacity;
-            } else if (data.modelNumber) {
-                updatedFields.modelNumber = data.modelNumber;
-            }
-            console.log(updatedFields)
-            const response = await this.model.update(updatedFields,{
-                where: {
-                    id: id
-                }})
-            return response
-        } catch (error) {
-            Logger.error("Something went wrong in CRUD Repo: update")
-        }
+        const response = await this.model.update(data ,{
+            where: {
+                id: id
+            }})
+            if(response[0] === 0) { 
+                throw new AppError('No record updated as Data doesnt exists', StatusCodes.NOT_FOUND) }
+        return response
     }
 }
 

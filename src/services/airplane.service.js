@@ -59,7 +59,8 @@ async function updateAirplane(id, data) {
         const response = await airplaneRepository.update(id, data)
         return response
     } catch (error) {
-        throw new AppError("Cannot update data of Airplane", StatusCodes.INTERNAL_SERVER_ERROR)        
+        if(error.statusCode == StatusCodes.NOT_FOUND) throw new AppError("The requested record doesnt exists", StatusCodes.NOT_FOUND)
+        throw new AppError("Cannot update data of Airplane", StatusCodes.INTERNAL_SERVER_ERROR)     
     }
 }
 

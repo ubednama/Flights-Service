@@ -85,8 +85,19 @@ async function deleteAirplane(req, res) {
 
 async function updateAirplane(req, res) {
     try {
-        const response = await AirplaneService.updateAirplane(req.params.id, req.body)
+        let updateFields = {};
+        let {modelNumber, capacity} = req.body;
+
+        if (modelNumber !== undefined) {
+            updateFields.modelNumber = modelNumber;
+        }
+        if (capacity !== undefined) {
+            updateFields.capacity = capacity;
+        }
+        
+        const response = await AirplaneService.updateAirplane(req.params.id, updateFields)
         SuccessResponse.data = response
+        SuccessResponse.message = "Airplane Data updated Successfully"
         return res
             .status(StatusCodes.OK)
             .json(SuccessResponse)
