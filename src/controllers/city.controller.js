@@ -8,7 +8,7 @@ POST: /cities
 req.body {name: "xyz"} */
 async function createCity(req, res) {
     try {
-        const city = await CityService.createCity({name: req.body.name, state:req.body.state})
+        const city = await CityService.createCity({name: req.body.name, state:req.body.state, country:req.body.country})
         SuccessResponse.message = "New City Added";
         SuccessResponse.data = city;
         return res
@@ -25,7 +25,7 @@ async function createCity(req, res) {
 
 async function updateCity(req, res) {
     try {
-        const {name, state} = req.body
+        const {name, state, country} = req.body
         let updateFields = [];
         
         if(name !== undefined) {
@@ -33,6 +33,10 @@ async function updateCity(req, res) {
         }
         if(state !== undefined) {
             updateFields.state = state
+        }
+
+        if(country !== undefined) {
+            updateFields.country = country
         }
 
         const response = await CityService.updateCity(req.params.id, updateFields)

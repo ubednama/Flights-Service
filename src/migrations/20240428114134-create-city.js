@@ -13,7 +13,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       state: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      country: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
