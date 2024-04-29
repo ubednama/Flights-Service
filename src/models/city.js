@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true },
     state: {
       type: DataTypes.STRING,
-      allowNull: false },
+      allowNull: true },
     country: {
       type: DataTypes.STRING,
       allowNull: false }
