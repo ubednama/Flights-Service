@@ -10,6 +10,7 @@ const { SuccessResponse, ErrorResponse } = require("../utils/common");
     req-body {modelNumber: 'airbus320', capacity: 200}
 */
 async function createAirport(req, res) {
+    console.log("airport controller")
     try {
         const airport = await AirportService.createAirport({
             name: req.body.name,

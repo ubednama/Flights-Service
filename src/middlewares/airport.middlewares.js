@@ -19,7 +19,7 @@ function validateCreateRequest(req, res, next) {
             .status(StatusCodes.BAD_REQUEST)
             .json(ErrorResponse);
     }
-    if(!req.body.cityID) {
+    if(!req.body.cityId) {
         ErrorResponse.message = 'Error while creating airplane';
         
         ErrorResponse.error = new AppError([ "City ID is not defined" ], StatusCodes.BAD_REQUEST)

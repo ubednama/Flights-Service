@@ -5,6 +5,7 @@ const AppError = require("../utils/errors/app.error");
 const airportRepository = new AirportRepository();
 
 async function createAirport(data) {
+    console.log("airport service")
     try {
         const airport = await airportRepository.create(data);
         return airport;
