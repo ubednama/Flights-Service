@@ -21,7 +21,7 @@ async function createAirplane(data) {
     }
 }
 
-async function getAirplanes() {
+async function getAllAirplanes() {
     try {
         const airplanes = await airplaneRepository.getAll();
         return airplanes;
@@ -66,7 +66,7 @@ async function updateAirplane(id, data) {
 
 module.exports = {
     createAirplane,
-    getAirplanes,
+    getAllAirplanes,
     getAirplane,
     deleteAirplane,
     updateAirplane

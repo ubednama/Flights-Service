@@ -19,3 +19,9 @@ app.get("/", (req,res)=>{
 app.listen(ServerConfig.PORT, async () => {
     console.log(`Successfully started the server on PORT : ${ServerConfig.PORT}`);
 });
+
+
+/**
+ * Query to check if constraint has been applied
+ * SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = 'Airports' AND CONSTRAINT_SCHEMA = "Flights"
+ */

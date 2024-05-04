@@ -32,9 +32,3 @@ module.exports = {
     await queryInterface.removeConstraint('Airports', 'city_airport_fkey_constraint_name');
   }
 };
-
-
-/**
- * Query to check if constraint has been applied
- * SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = 'Airports' AND CONSTRAINT_SCHEMA = "Flights"
- */

@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/', AirplaneMiddlewares.validateCreateRequest,AirplaneController.createAirplane)
 
-router.get('/', AirplaneController.getAirplanes)
+router.get('/', AirplaneController.getAllAirplanes)
 
 router.get('/:id', AirplaneController.getAirplane)
 
