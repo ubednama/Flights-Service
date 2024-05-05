@@ -25,3 +25,6 @@ app.listen(ServerConfig.PORT, async () => {
  * Query to check if constraint has been applied
  * SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = 'Airports' AND CONSTRAINT_SCHEMA = "Flights"
  */
+
+
+//06        45

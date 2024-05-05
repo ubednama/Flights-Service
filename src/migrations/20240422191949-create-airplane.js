@@ -12,7 +12,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       modelNumber: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          is: /^[a-zA-Z0-9 ]+$/i
+        }
       },
       capacity: {
         type: Sequelize.INTEGER,
