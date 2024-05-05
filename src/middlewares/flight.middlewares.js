@@ -8,52 +8,52 @@ function validateCreateRequest(req, res, next) {
     
     const missingFields = [];
 
-    console.log(airplaneId)
+    console.log(typeof price)
+    console.log(typeof Number(price))
+    console.log("Price before conversion:", price);
+    price = Number(price);
+    console.log("Price after conversion:", price);
 
     if(!flightNumber) {
-        ErrorResponse.error = new AppError([ "Flight Number is not defined" ], StatusCodes.BAD_REQUEST)
+        missingFields.push( "Flight Number is not defined")
     }
     if(!airplaneId) {
-        ErrorResponse.error = new AppError([ "Airplane Id is not defined" ], StatusCodes.BAD_REQUEST)
+        missingFields.push( "Airplane Id is not defined")
     }
     if(!departureAirportId) {
-        ErrorResponse.error = new AppError([ "Departure Airport Id is not defined" ], StatusCodes.BAD_REQUEST)
+        missingFields.push( "Departure Airport Id is not defined")
     }
     if(!arrivalAirportId) {
-        ErrorResponse.error = new AppError([ "Arrival Airport Id is not defined" ], StatusCodes.BAD_REQUEST)
+        missingFields.push( "Arrival Airport Id is not defined")
     }
     if(!departureTime) {
-        ErrorResponse.error = new AppError([ "Departure Time is not defined" ], StatusCodes.BAD_REQUEST)
+        missingFields.push( "Departure Time is not defined")
     }
     if(!arrivalTime) {
-        ErrorResponse.error = new AppError([ "Arrival Time is not defined" ], StatusCodes.BAD_REQUEST)
+        missingFields.push( "Arrival Time is not defined")
     }
-    if(!price) {
-        ErrorResponse.error = new AppError([ "Price is not defined" ], StatusCodes.BAD_REQUEST)
+    if(!price || Number(price) <= 0) {
+        missingFields.push( "Price is not defined")
     }
     if(!boardingGate) {
-        ErrorResponse.error = new AppError([ "Boarding Gate is not defined" ], StatusCodes.BAD_REQUEST)
+        missingFields.push("Boarding Gate is not defined")
     }
-    if(!totalSeats) {
-        ErrorResponse.error = new AppError([ "Total Seats is not defined" ], StatusCodes.BAD_REQUEST)
+    if(!totalSeats || Number(totalSeats) === 0) {
+        missingFields.push( "Total Seats is not defined")
     }
 
     if (missingFields.length > 0) {
         ErrorResponse.message = "Error while creating Flight"
-
-        // , StatusCodes.BAD_REQUEST, missingFields);
+        ErrorResponse.error = new AppError(missingFields, StatusCodes.BAD_REQUEST)
         return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
     }
 
     if (!compareTime(arrivalTime, departureTime, '23:59', '02:00')) {
         ErrorResponse.message = "Inappropriate time"
-        // , StatusCodes.BAD_REQUEST);
+
         return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
     }
 
-    // return res 
-    //     .status(StatusCodes.BAD_REQUEST)
-    //     .json(ErrorResponse);
     next()
 }
 
