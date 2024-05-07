@@ -8,12 +8,6 @@ function validateCreateRequest(req, res, next) {
     
     const missingFields = [];
 
-    console.log(typeof price)
-    console.log(typeof Number(price))
-    console.log("Price before conversion:", price);
-    price = Number(price);
-    console.log("Price after conversion:", price);
-
     if(!flightNumber) {
         missingFields.push( "Flight Number is not defined")
     }

@@ -1,6 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
 const { FlightRepository } = require("../repositories");
 const AppError = require("../utils/errors/app.error");
+const { Op } = require("sequelize");
+const { getCurrentTime, getCurrentDate } = require("../utils/helpers/currentDateTime.helper");
 
 const flightRepository = new FlightRepository();
 
@@ -22,15 +24,71 @@ async function createFlight(data) {
     }
 }
 
-async function getAllFlights() {
+async function getAllFlights(query) {
+    
+    let {trips, price, travellers, tripDate, sort} = query
+    
+    console.log(query)
+    
+    let customFilter = {}
+    let sortFilter = []
+
+    let dayStart = getCurrentTime();
+    let dayEnd = " 23:59:00";
+    let currentDate = getCurrentDate();
+
+    if(trips) {
+        [departureAirportId, arrivalAirportId] = trips.split("-")
+        customFilter.departureAirportId = departureAirportId;
+        customFilter.arrivalAirportId = arrivalAirportId;
+
+        //ToDo: add checks that they are not same
+    }
+    
+    if(price) {
+        [minPrice, maxPrice] = price.split('-')
+        customFilter.price = {
+            [Op.between]: [((minPrice === undefined) ? 1000:minPrice), ((maxPrice == undefined) ? 20000:maxPrice)]
+        }
+    }
+
+    if(travellers) {
+        customFilter.totalSeats = {
+            [Op.gte]: travellers
+        }
+    }
+
+    if(tripDate) {
+        // console.log(tripDate, dayStart, dayEnd)
+        let checkDate = (tripDate < currentDate) ? currentDate : tripDate
+        customFilter.departureTime = {
+            [Op.between]: [ checkDate + dayStart, checkDate + dayEnd]
+        }
+    } else {
+        customFilter.departureTime = {
+            [Op.between]: [currentDate + dayStart, currentDate + dayEnd]
+        }
+    }
+
+    if(sort) {
+        const params = sort.split(',');
+        const sortFilters = params.map((param)=> param.split('_'));
+        sortFilter = sortFilters
+
+    }
+
+    // console.log(customFilter)
+
     try {
-        const flights = await flightRepository.getAll();
+        const flights = await flightRepository.getAllFlights(customFilter, sortFilter);
+        console.log(flights)
         return flights;
     } catch (error) {
         throw new AppError('Cannot fetch data of all the Flights', StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
 
+//fix this both
 async function getFlight(data) {
     try {
         const flight = await flightRepository.get(data);
@@ -44,6 +102,7 @@ async function getFlight(data) {
 }
 
 
+//fix this both
 async function deleteFlight(data) {
     try {
         const response = await flightRepository.destroy(data)

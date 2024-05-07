@@ -45,8 +45,9 @@ async function createFlight(req, res) {
     req-params {}
 */
 async function getAllFlights(req, res) {
+    // console.log("controller ",req.query)
     try {
-        const flights = await FlightService.getAllFlights();
+        const flights = await FlightService.getAllFlights(req.query);
          SuccessResponse.data = flights;
          return res
             .status(StatusCodes.OK)
