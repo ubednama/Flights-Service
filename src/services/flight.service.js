@@ -74,10 +74,9 @@ async function getAllFlights(query) {
         const params = sort.split(',');
         const sortFilters = params.map((param)=> param.split('_'));
         sortFilter = sortFilters
-
     }
 
-    // console.log(customFilter)
+    console.log(customFilter, sortFilter)
 
     try {
         const flights = await flightRepository.getAllFlights(customFilter, sortFilter);
