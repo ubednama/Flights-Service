@@ -25,7 +25,7 @@ module.exports = {
       row: {
         type: Sequelize.INTEGER
       },
-      column: {
+      col: {
         type: Sequelize.STRING
       },
       type: {
