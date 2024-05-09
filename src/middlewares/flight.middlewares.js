@@ -4,7 +4,7 @@ const AppError = require("../utils/errors/app.error");
 const { compareTime } = require("../utils/helpers/datetime.helper");
 
 function validateCreateRequest(req, res, next) {
-    let {flightNumber, airplaneId, departureAirportId, arrivalAirportId, departureTime, arrivalTime, price, boardingGate, totalSeats} = req.body
+    let {flightNumber, airplaneId, departureAirportId, arrivalAirportId, departureTime, arrivalTime, price, boardingGate, totalAvailableSeats} = req.body
     
     const missingFields = [];
 
@@ -32,7 +32,7 @@ function validateCreateRequest(req, res, next) {
     if(!boardingGate) {
         missingFields.push("Boarding Gate is not defined")
     }
-    if(!totalSeats || Number(totalSeats) === 0) {
+    if(!totalAvailableSeats || Number(totalAvailableSeats) === 0) {
         missingFields.push( "Total Seats is not defined")
     }
 
@@ -51,14 +51,11 @@ function validateCreateRequest(req, res, next) {
     next()
 }
 
+function validateUpdateSeatRequest(req, res, next) {
 
-
-//fix tihs
-function validateUpdateRequest(req, res, next) {
-    if(!req.body.name && !req.body.code && !req.body.cityId) {
+    if(!req.body.seats) {
         ErrorResponse.message = "No update date provided";
-
-        ErrorResponse.error = new AppError(["No fields to update"], StatusCodes.BAD_REQUEST)
+        ErrorResponse.error = new AppError('Seat details not found', StatusCodes.BAD_REQUEST)
         return res 
             .status(StatusCodes.BAD_REQUEST)
             .json(ErrorResponse)
@@ -68,5 +65,5 @@ function validateUpdateRequest(req, res, next) {
 
 module.exports = {
     validateCreateRequest,
-    validateUpdateRequest
+    validateUpdateSeatRequest
 }

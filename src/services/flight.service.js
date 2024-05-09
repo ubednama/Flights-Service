@@ -53,7 +53,7 @@ async function getAllFlights(query) {
     }
 
     if(travellers) {
-        customFilter.totalSeats = {
+        customFilter.totalAvailableSeats = {
             [Op.gte]: travellers
         }
     }
@@ -87,10 +87,9 @@ async function getAllFlights(query) {
     }
 }
 
-//fix this both
-async function getFlight(data) {
+async function getFlight(id) {
     try {
-        const flight = await flightRepository.get(data);
+        const flight = await flightRepository.get(id);
         return flight;
     } catch (error) {
         if(error.statusCode == StatusCodes.NOT_FOUND) {
@@ -100,6 +99,16 @@ async function getFlight(data) {
     }
 }
 
+
+async function updateSeats(data) {
+    try {
+        const response = await flightRepository.updateRemainingSeats(data.flightId, data.seats, data.dec);
+        return response;
+    } catch (error) {
+        console.log(error)
+        throw new AppError("Cannot update data of given Flight", StatusCodes.INTERNAL_SERVER_ERROR)
+    }
+}
 
 //fix this both
 async function deleteFlight(data) {
@@ -126,7 +135,8 @@ async function updateFlight(id, data) {
 module.exports = {
     createFlight,
     getAllFlights,
-    getFlight
+    getFlight,
+    updateSeats
     // deleteFlight,
     // updateFlight
 };

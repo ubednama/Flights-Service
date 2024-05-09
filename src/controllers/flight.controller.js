@@ -11,7 +11,7 @@ const { SuccessResponse, ErrorResponse } = require("../utils/common");
 */
 async function createFlight(req, res) {
     console.log("flight controller")
-    let {flightNumber,airplaneId,departureAirportId,arrivalAirportId,departureTime,arrivalTime,price,boardingGate,totalSeats} = req.body
+    let {flightNumber,airplaneId,departureAirportId,arrivalAirportId,departureTime,arrivalTime,price,boardingGate,totalAvailableSeats} = req.body
 
     try {
         const flight = await FlightService.createFlight({
@@ -23,7 +23,7 @@ async function createFlight(req, res) {
             arrivalTime: arrivalTime,
             price: price,
             boardingGate: boardingGate,
-            totalSeats: totalSeats,
+            totalAvailableSeats: totalAvailableSeats,
         })
         SuccessResponse.message = "Successfully created an Flight",
         SuccessResponse.data = flight
@@ -79,6 +79,25 @@ async function getFlight(req, res) {
     }
 }
 
+async function updateSeats(req, res) {
+    try {
+        const response = await FlightService.updateSeats({
+            flightId: req.params.id, 
+            seats: req.body.seats,
+            dec: req.body.dec
+        })
+        SuccessResponse.data = response;
+        return res
+            .status(StatusCodes.OK)
+            .json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.error = error;
+        return res
+            .status(error.statusCode)
+            .json(ErrorResponse)
+    }
+}
+
 //fix this for flight
 async function deleteFlight(req, res) {
     try {
@@ -94,8 +113,6 @@ async function deleteFlight(req, res) {
             .json(ErrorResponse)
     }
 }
-
-
 
 async function updateFlight(req, res) {
     try {
@@ -127,6 +144,7 @@ module.exports = {
     createFlight,
     getAllFlights,
     getFlight,
+    updateSeats,
     // deleteFlight,
     // updateFlight
 }
