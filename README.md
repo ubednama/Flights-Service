@@ -1,4 +1,4 @@
-# Flight Service Microservice
+# Flight Service
 
 The Flight Service microservice is responsible for managing flight data within the Flight Management System. It provides endpoints for retrieving information about flights, airports, airplanes, etc.
 
