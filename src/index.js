@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const { ServerConfig } = require('./config');
 const apiRoutes = require('./routes');
@@ -11,9 +12,13 @@ app.use(express.urlencoded({extended: true}))       //to read urlencoded stuff i
 
 app.use('/api', apiRoutes);
 
-app.get("/", (req,res)=>{
-    res.send("hello world")
-})
+// app.use(
+//     '/flights/bookings',
+//     createProxyMiddleware({
+//       target: 'http://localhost:3000/api/v1/bookings/',
+//       changeOrigin: true,
+//     }),
+// );
 
 
 app.listen(ServerConfig.PORT, async () => {
@@ -25,6 +30,3 @@ app.listen(ServerConfig.PORT, async () => {
  * Query to check if constraint has been applied
  * SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = 'Airports' AND CONSTRAINT_SCHEMA = "Flights"
  */
-
-
-//06        45
