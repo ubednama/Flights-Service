@@ -34,6 +34,7 @@ Setup .env file and run the project with other microservices
 
 ## Database Setup
 Run following commands to setup database
+
 ```sh
 cd src
 ```
