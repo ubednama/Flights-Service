@@ -19,4 +19,25 @@ Postman Collection to check [APIs](https://www.postman.com/dark-eclipse-727260/w
 [Link](https://lucid.app/lucidchart/a0ba6385-5ce1-4b63-8103-f3a4bc5d7b41/edit?viewport_loc=-470%2C-33%2C2681%2C1486%2C0_0&invitationId=inv_df908cd0-6537-438a-b54b-e9b1a9842b05)
 
 ### Installation
+
+**Install dependencies:**
+
+    ```sh
+    npm install
+    ```
+
 Setup .env file and run the project with other microservices
+
+## Database Setup
+  ```bash
+    cd src
+  ```
+  ```sh
+      npx sequelize init
+  ```
+  ```sh
+       npx sequelize db:create
+  ```
+  ```sh
+     npx sequelize db:migrate
+  ```
