@@ -29,15 +29,16 @@ Postman Collection to check [APIs](https://www.postman.com/dark-eclipse-727260/w
 Setup .env file and run the project with other microservices
 
 ## Database Setup
-  ```bash
-    cd src
-  ```
-  ```sh
-      npx sequelize init
-  ```
-  ```sh
-       npx sequelize db:create
-  ```
-  ```sh
-     npx sequelize db:migrate
-  ```
+
+```sh
+cd src
+```
+```sh
+  npx sequelize init
+```
+```sh
+   npx sequelize db:create
+```
+```sh
+ npx sequelize db:migrate
+```
